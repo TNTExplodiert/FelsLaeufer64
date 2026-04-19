@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Felslaeufer 64</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="hero">
+        <p class="eyebrow">Browser Jump and Run</p>
+        <h1>Felslaeufer 64</h1>
+        <p class="lead">
+          Ein statisches 3D-Jump-and-Run mit Doppelsprung, Mauskamera und
+          ASCII-Level-Editor. `S` setzt den Start, `L` ist Boden, `P` eine
+          Plattform fuer einen normalen Sprung, `D` eine hohe Plattform fuer
+          den Doppelsprung, `X` ein Loch und `Z` das Ziel.
+        </p>
+      </div>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Level-ASCII</h2>
+          <span id="grid-label">64 x 64</span>
+        </div>
+        <p class="panel-copy">
+          Jede Zeile beschreibt eine Reihe des Spielfelds. Unerlaubte Zeichen
+          werden automatisch zu `X` normalisiert.
+        </p>
+        <div class="button-row">
+          <select id="grid-size" aria-label="Grid-Groesse">
+            <option value="64" selected>64 x 64</option>
+            <option value="256">256 x 256</option>
+            <option value="1024">1024 x 1024</option>
+          </select>
+        </div>
+        <textarea id="level-editor" spellcheck="false" aria-label="ASCII Level Editor"></textarea>
+        <div class="button-row">
+          <button id="apply-level" class="primary">Level laden</button>
+          <button id="reset-level" class="secondary">Beispiel wiederherstellen</button>
+        </div>
+        <p id="level-feedback" class="feedback">Beispiel-Level geladen.</p>
+      </section>
+
+      <section class="panel legend-panel">
+        <div class="panel-header">
+          <h2>Steuerung</h2>
+          <span>Live</span>
+        </div>
+        <ul class="legend-list">
+          <li><span>WASD</span> laufen relativ zur Kamerarichtung</li>
+          <li><span>Leertaste</span> Sprung plus Doppelsprung</li>
+          <li><span>Q</span> kurzer Dash etwa ein Feld weit</li>
+          <li><span>Maus</span> Kamera drehen nach Klick ins Spielfeld</li>
+          <li><span>Mausrad</span> Zoom</li>
+          <li><span>R</span> Respawn am Start</li>
+          <li><span>ESC</span> Maus freigeben</li>
+        </ul>
+      </section>
+
+      <section class="panel status-panel">
+        <div class="panel-header">
+          <h2>Status</h2>
+          <span>Ingame</span>
+        </div>
+        <div class="status-grid">
+          <div class="status-card">
+            <label>Spruenge</label>
+            <strong id="jump-status">2 / 2</strong>
+          </div>
+          <div class="status-card">
+            <label>Position</label>
+            <strong id="position-status">0, 0</strong>
+          </div>
+          <div class="status-card">
+            <label>Kamera</label>
+            <strong id="camera-status">Bereit</strong>
+          </div>
+          <div class="status-card">
+            <label>Level</label>
+            <strong id="tile-status">0 Plattformen</strong>
+          </div>
+        </div>
+      </section>
+    </aside>
+
+    <main class="viewport-shell">
+      <canvas id="game-canvas" aria-label="3D Spielansicht"></canvas>
+
+      <div class="hud">
+        <div class="hud-box hud-primary">
+          <strong>Ins Spielfeld klicken</strong>
+          <span id="lock-hint">Dann steuert die Maus die Kamera.</span>
+        </div>
+        <div class="hud-box hud-secondary" id="respawn-hint">Spring ueber Loecher und Plattformketten.</div>
+      </div>
+
+      <div class="goal-overlay hidden" id="goal-overlay">
+        <div class="goal-card">
+          <p class="goal-eyebrow">Ziel erreicht</p>
+          <h2 id="goal-message">Ziel erreicht</h2>
+          <div class="button-row goal-actions">
+            <button id="goal-ok" class="primary" type="button">OK</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="./three.local.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
